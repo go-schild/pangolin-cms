@@ -8,18 +8,16 @@ import (
 func Start(config Config) error {
 	config.fillDefaultValues()
 
-	// Load urls
-	urlsConfigFile := filepath.Join(config.ConfigDir, "urls.yml")
-	urlsSet, err := loadWebURLSet(urlsConfigFile)
+	// Load pages
+	pagesConfigFile := filepath.Join(config.ConfigDir, "pages.yml")
+	pages, err := loadPageList(pagesConfigFile)
 	if err != nil {
 		return err
 	}
 
 	// Build handlers
-	for index, urlInfo := range urlsSet {
-		urlInfo.Page.Index = index
-
-		handler := urlInfo.Page.buildHandler(config)
+	for _, urlInfo := range pages {
+		handler := urlInfo.buildHandler(config)
 		http.Handle(urlInfo.URL, handler)
 	}
 

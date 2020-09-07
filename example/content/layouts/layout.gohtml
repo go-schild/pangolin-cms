@@ -28,8 +28,8 @@
 
         <div id="content">
             {{range .Contents}}
-                <div class="container">
-                    {{.}}
+                <div id="{{.ID}}" class="{{.Class}}">
+                    {{.HTML}}
                 </div>
             {{end}}
         </div>

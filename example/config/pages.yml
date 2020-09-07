@@ -1,0 +1,47 @@
+index:
+  url: /
+  title: Home
+  layout: layout.gohtml
+  content:
+    - type: html
+      file: index.html
+      id: banner
+    - type: markdown
+      file: index.md
+      class: container
+  css:
+    - main.css
+    - index.css
+
+starting:
+  url: /starting
+  title: Starting
+  layout: layout.gohtml
+  content:
+    - type: markdown
+      file: starting.md
+      class: container
+  css:
+    - main.css
+
+config:
+  url: /config
+  title: Configuration
+  layout: layout.gohtml
+  content:
+    - type: markdown
+      file: config.md
+      class: container
+  css:
+    - main.css
+
+contents:
+  url: /contents
+  title: Writing content
+  layout: layout.gohtml
+  content:
+    - type: markdown
+      file: contents.md
+      class: container
+  css:
+    - main.css
