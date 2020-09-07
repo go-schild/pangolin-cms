@@ -2,15 +2,43 @@
   font-family: sans-serif;
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 body {
   background-color: #555555;
 }
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ad4b00;
+}
+ul {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
 #header {
   background-color: #333333;
-  border-bottom: 5px solid #ad4b00;
   color: white;
   font-size: 1.5rem;
+}
+#nav {
+  background-color: #333333;
+  border-bottom: 5px solid #ad4b00;
+}
+#nav .container {
+  padding: 0 1rem;
+}
+#nav a {
+  display: inline-block;
+  line-height: 2rem;
+  padding: 0 1rem;
+  color: white;
+  background-color: #404040;
+  text-decoration: none;
+  transition: background-color 200ms linear;
+}
+#nav a:hover {
+  background-color: #ad4b00;
 }
 #content {
   min-height: 10rem;

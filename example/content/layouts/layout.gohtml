@@ -1,7 +1,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Pangolin CMS</title>
+        <title>{{.Title}}</title>
         <base href="/">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,14 +13,25 @@
     <body>
         <div id="header">
             <div class="container">
-                <span>Example</span>
+                <span>Pangolin CMS Example Website</span>
+            </div>
+        </div>
+
+        <div id="nav">
+            <div class="container">
+                <a href="/">Home</a>
+                <a href="/starting">Starting</a>
+                <a href="/config">Configuration</a>
+                <a href="/contents">Write Content</a>
             </div>
         </div>
 
         <div id="content">
-            <div class="container">
-                {{.Content}}
-            </div>
+            {{range .Contents}}
+                <div class="container">
+                    {{.}}
+                </div>
+            {{end}}
         </div>
 
         <div id="footer">

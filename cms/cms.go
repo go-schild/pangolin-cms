@@ -16,7 +16,9 @@ func Start(config Config) error {
 	}
 
 	// Build handlers
-	for _, urlInfo := range urlsSet {
+	for index, urlInfo := range urlsSet {
+		urlInfo.Page.Index = index
+
 		handler := urlInfo.Page.buildHandler(config)
 		http.Handle(urlInfo.URL, handler)
 	}

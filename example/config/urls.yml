@@ -1,8 +1,35 @@
 index:
   url: /
   page:
-    title:
+    title: Home
     file: index.md
+    layout: layout.gohtml
+    css:
+      - main.css
+
+starting:
+  url: /starting
+  page:
+    title: Starting
+    file: starting.md
+    layout: layout.gohtml
+    css:
+      - main.css
+
+config:
+  url: /config
+  page:
+    title: Configuration
+    file: config.md
+    layout: layout.gohtml
+    css:
+      - main.css
+
+contents:
+  url: /contents
+  page:
+    title: Writing content
+    file: contents.md
     layout: layout.gohtml
     css:
       - main.css

@@ -1,5 +1,0 @@
-index:
-  file: index.md
-  layout: layout.gohtml
-  css:
-    - main.css

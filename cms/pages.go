@@ -13,6 +13,8 @@ import (
 type PageType string
 
 type Page struct {
+	Index  string   `yaml:"-"`
+	Title  string   `yaml:"title"`
 	File   string   `yaml:"file"`
 	Layout string   `yaml:"layout"`
 	CSS    []string `yaml:"css"`
@@ -30,10 +32,11 @@ func (p Page) buildHandler(config Config) http.Handler {
 	layout := template.Must(template.ParseFiles(layoutFile))
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := layout.Execute(w, map[string]interface{}{
-			"Content": content,
-			"CSS":     p.CSS,
-			"JS":      p.JS,
+		err := layout.Execute(w, templateDataStruct{
+			Title:    p.Title,
+			Contents: []template.HTML{content},
+			CSS:      p.CSS,
+			JS:       p.JS,
 		})
 
 		if err != nil {

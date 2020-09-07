@@ -5,7 +5,6 @@ type Config struct {
 	ContentDir    string
 	StaticDir     string
 	WebAddr       string
-	ActivateAdmin bool
 }
 
 func (c *Config) fillDefaultValues() {
