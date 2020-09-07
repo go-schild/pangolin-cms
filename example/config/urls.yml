@@ -1,0 +1,8 @@
+index:
+  url: /
+  page:
+    title:
+    file: index.md
+    layout: layout.gohtml
+    css:
+      - main.css

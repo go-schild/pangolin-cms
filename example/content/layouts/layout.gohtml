@@ -1,0 +1,36 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Pangolin CMS</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {{range .CSS}}
+            <link rel="stylesheet" href="/static/css/{{.}}">
+        {{end}}
+    </head>
+
+    <body>
+        <div id="header">
+            <div class="container">
+                <span>Example</span>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="container">
+                {{.Content}}
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                Powered by <a href="https://github.com/go-schild/pangolin-cms">pangolin-cms</a>.
+            </div>
+        </div>
+
+        {{range .JS}}
+            <script src="/static/js/{{.}}"></script>
+        {{end}}
+    </body>
+</html>
