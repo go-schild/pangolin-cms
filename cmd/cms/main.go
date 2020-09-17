@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/go-schild/pangolin-cms/cms"
 )
 
 var (
@@ -22,13 +20,7 @@ func init() {
 }
 
 func main() {
-	err := cms.Start(cms.Config{
-		ConfigDir:  configDir,
-		ContentDir: contentDir,
-		StaticDir:  staticDir,
-	})
-
-	if err != nil {
+	if err := rootCommand.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}

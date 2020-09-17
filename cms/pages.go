@@ -1,9 +1,7 @@
 package cms
 
 import (
-	"github.com/russross/blackfriday"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
@@ -29,38 +27,29 @@ type PageContent struct {
 }
 
 func (p Page) buildHandler(config Config) http.Handler {
-	var contents []templateDataContentStruct
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var contents []templateDataContentStruct
 
-	// Load layout
-	layoutFile := filepath.Join(config.ContentDir, "layouts", p.Layout)
-	layout := template.Must(template.ParseFiles(layoutFile))
+		// Load layout
+		layoutFile := filepath.Join(config.ContentDir, "layouts", p.Layout)
+		layout := template.Must(template.ParseFiles(layoutFile))
 
-	// Load contents
-	for _, pageContent := range p.Contents {
-		switch pageContent.Type {
-		case "html":
-			htmlFile := filepath.Join(config.ContentDir, "html", pageContent.File)
-			data, _ := ioutil.ReadFile(htmlFile) // TODO error handling
+		// Load contents
+		for _, pageContent := range p.Contents {
+			converter, ok := htmlConverters[pageContent.Type]
+			if !ok {
+				// TODO error or something.
+				continue
+			}
 
+			html, _ := converter(config, pageContent.File)  // TODO error handling
 			contents = append(contents, templateDataContentStruct{
-				HTML:  bytesToHTML(data),
-				ID:    pageContent.ID,
-				Class: pageContent.Class,
-			})
-
-		case "markdown":
-			mdFile := filepath.Join(config.ContentDir, "md", pageContent.File)
-			data, _ := ioutil.ReadFile(mdFile) // TODO error handling
-
-			contents = append(contents, templateDataContentStruct{
-				HTML:  bytesToHTML(blackfriday.MarkdownCommon(data)),
-				ID:    pageContent.ID,
+				HTML: html,
+				ID: pageContent.ID,
 				Class: pageContent.Class,
 			})
 		}
-	}
 
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		err := layout.Execute(w, templateDataStruct{
 			Title:    p.Title,
 			Contents: contents,
