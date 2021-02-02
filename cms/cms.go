@@ -25,5 +25,11 @@ func Start(config Config) error {
 	staticHandler := http.FileServer(http.Dir(config.StaticDir()))
 	http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
 
+	// Build admin handler
+	if config.AdminPanel {
+		adminHandler := buildAdminHandler()
+		http.Handle("/admin/", adminHandler)
+	}
+
 	return http.ListenAndServe(config.WebAddr, nil)
 }

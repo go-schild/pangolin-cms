@@ -11,7 +11,12 @@ var rootCommand = &cobra.Command{
 	Long:  "Run the cms server.",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		dataDir, _ := cmd.Flags().GetString("data-dir")
-		return cms.Start(cms.Config{DataDir: dataDir})
+		admin, _ := cmd.Flags().GetBool("admin")
+
+		return cms.Start(cms.Config{
+			DataDir:    dataDir,
+			AdminPanel: admin,
+		})
 	},
 }
 
@@ -29,5 +34,6 @@ func init() {
 	rootCommand.AddCommand(initCommand)
 
 	rootCommand.PersistentFlags().StringP("data-dir", "d", ".", "The data directory.")
+	rootCommand.PersistentFlags().Bool("admin", false, "Activate the admin panel")
 	_ = rootCommand.MarkFlagRequired("data-dir")
 }

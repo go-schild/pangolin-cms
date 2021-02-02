@@ -3,8 +3,9 @@ package cms
 import "path"
 
 type Config struct {
-	DataDir string
-	WebAddr string
+	DataDir    string
+	WebAddr    string
+	AdminPanel bool
 }
 
 func (c Config) ConfigDir() string {
