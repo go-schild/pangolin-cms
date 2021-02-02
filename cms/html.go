@@ -28,7 +28,7 @@ type HTMLConverter func(config Config, filename string) (template.HTML, error)
 
 var htmlConverters = map[string]HTMLConverter{
 	"html": func(config Config, filename string) (template.HTML, error) {
-		htmlFile := filepath.Join(config.ContentDir, "html", filename)
+		htmlFile := filepath.Join(config.ContentDir(), "html", filename)
 		data, err := ioutil.ReadFile(htmlFile)
 		if err != nil {
 			return "", err
@@ -38,7 +38,7 @@ var htmlConverters = map[string]HTMLConverter{
 	},
 
 	"markdown": func(config Config, filename string) (template.HTML, error) {
-		mdFile := filepath.Join(config.ContentDir, "md", filename)
+		mdFile := filepath.Join(config.ContentDir(), "md", filename)
 		data, err := ioutil.ReadFile(mdFile)
 		if err != nil {
 			return "", err

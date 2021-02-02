@@ -31,7 +31,7 @@ func (p Page) buildHandler(config Config) http.Handler {
 		var contents []templateDataContentStruct
 
 		// Load layout
-		layoutFile := filepath.Join(config.ContentDir, "layouts", p.Layout)
+		layoutFile := filepath.Join(config.ContentDir(), "layouts", p.Layout)
 		layout := template.Must(template.ParseFiles(layoutFile))
 
 		// Load contents

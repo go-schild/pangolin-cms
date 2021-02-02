@@ -1,12 +1,15 @@
 package cms
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path"
 )
 
-func initializeDirs() error {
+func initializeDirs(dataDir string) error {
+	fmt.Println("Create basic directory structure")
 	defaultDirs := []string{
 		"config",
 		"content/html",
@@ -17,7 +20,9 @@ func initializeDirs() error {
 	}
 
 	for _, d := range defaultDirs {
-		err := os.MkdirAll(d, 0700)
+		joined := path.Join(dataDir, d)
+		fmt.Println("Create dir:", joined)
+		err := os.MkdirAll(joined, 0700)
 		if err != nil {
 			return err
 		}
@@ -26,9 +31,9 @@ func initializeDirs() error {
 	return nil
 }
 
-func initializeFiles() error {
-	// TODO isn't there a more elegant way?
-	baseURL := `https://raw.githubusercontent.com/go-schild/pangolin-cms/master/cmd/cms/`
+func initializeFiles(dataDir string) error {
+	fmt.Println("Download example files")
+	baseURL := `https://raw.githubusercontent.com/go-schild/pangolin-cms/master/example/`
 	copyFiles := []string{
 		"config/pages.yml",
 		"content/html/index.html",
@@ -54,7 +59,9 @@ func initializeFiles() error {
 			return err
 		}
 
-		err = ioutil.WriteFile(f, body, 0600)
+		joined := path.Join(dataDir, f)
+		fmt.Println("Created:", joined)
+		err = ioutil.WriteFile(joined, body, 0600)
 		if err != nil {
 			return err
 		}
@@ -63,12 +70,12 @@ func initializeFiles() error {
 	return nil
 }
 
-func Initialize() error {
-	if err := initializeDirs(); err != nil {
+func Initialize(dataDir string) error {
+	if err := initializeDirs(dataDir); err != nil {
 		return err
 	}
 
-	if err := initializeFiles(); err != nil {
+	if err := initializeFiles(dataDir); err != nil {
 		return err
 	}
 

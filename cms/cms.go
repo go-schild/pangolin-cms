@@ -9,7 +9,7 @@ func Start(config Config) error {
 	config.fillDefaultValues()
 
 	// Load pages
-	pagesConfigFile := filepath.Join(config.ConfigDir, "pages.yml")
+	pagesConfigFile := filepath.Join(config.ConfigDir(), "pages.yml")
 	pages, err := loadPageList(pagesConfigFile)
 	if err != nil {
 		return err
@@ -22,7 +22,7 @@ func Start(config Config) error {
 	}
 
 	// Build static handler
-	staticHandler := http.FileServer(http.Dir(config.StaticDir))
+	staticHandler := http.FileServer(http.Dir(config.StaticDir()))
 	http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
 
 	return http.ListenAndServe(config.WebAddr, nil)
