@@ -2,8 +2,6 @@ package cms
 
 import (
 	"html/template"
-	"log"
-	"net/http"
 	"path/filepath"
 )
 
@@ -26,8 +24,8 @@ type PageContent struct {
 	Class string `yaml:"class"`
 }
 
-func (p Page) buildHandler(config Config) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func (p Page) buildHandler(config Config) Handler {
+	return func(c *Context) error {
 		var contents []templateDataContentStruct
 
 		// Load layout
@@ -42,25 +40,21 @@ func (p Page) buildHandler(config Config) http.Handler {
 				continue
 			}
 
-			html, _ := converter(config, pageContent.File)  // TODO error handling
+			html, _ := converter(config, pageContent.File) // TODO error handling
 			contents = append(contents, templateDataContentStruct{
-				HTML: html,
-				ID: pageContent.ID,
+				HTML:  html,
+				ID:    pageContent.ID,
 				Class: pageContent.Class,
 			})
 		}
 
-		err := layout.Execute(w, templateDataStruct{
+		return layout.Execute(c.Writer, templateDataStruct{
 			Title:    p.Title,
 			Contents: contents,
 			CSS:      p.CSS,
 			JS:       p.JS,
 		})
-
-		if err != nil {
-			log.Println(err)
-		}
-	})
+	}
 }
 
 func loadPageList(url string) ([]Page, error) {

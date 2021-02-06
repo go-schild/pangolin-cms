@@ -7,6 +7,7 @@ import (
 
 func Start(config Config) error {
 	config.fillDefaultValues()
+	server := NewServer()
 
 	// Load pages
 	pagesConfigFile := filepath.Join(config.ConfigDir(), "pages.yml")
@@ -18,18 +19,17 @@ func Start(config Config) error {
 	// Build handlers
 	for _, urlInfo := range pages {
 		handler := urlInfo.buildHandler(config)
-		http.Handle(urlInfo.URL, handler)
+		server.handle(urlInfo.URL, handler)
 	}
 
-	// Build static handler
-	staticHandler := http.FileServer(http.Dir(config.StaticDir()))
-	http.Handle("/static/", http.StripPrefix("/static/", staticHandler))
-
-	// Build admin handler
+	// Admin
 	if config.AdminPanel {
-		adminHandler := buildAdminHandler()
-		http.Handle("/admin/", adminHandler)
+		server.handle("/admin/", handleAdminIndex)
+		server.handle("/admin/login/", handleAdminLogin)
 	}
 
-	return http.ListenAndServe(config.WebAddr, nil)
+	// Static
+	staticHandler := http.FileServer(http.Dir(config.StaticDir()))
+	server.mux.Handle("/static/", http.StripPrefix("/static/", staticHandler))
+	return server.Run(":8080")
 }

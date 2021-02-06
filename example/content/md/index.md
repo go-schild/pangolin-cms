@@ -43,9 +43,3 @@ modify it like you wish and compile your own version.
 
 You can still simply update the cms by updating the
 version of the pangolin-cms version.
-
-## No admin page hijacking
-
-Pangolin CMS does not expose any form of admin page.
-This makes it not possible for botnets to hijack your
-websites admin page - there's none!
