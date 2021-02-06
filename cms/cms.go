@@ -24,6 +24,7 @@ func Start(config Config) error {
 
 	// Admin
 	if config.AdminPanel {
+		initAdminTemplates()
 		server.handle("/admin/", handleAdminIndex)
 		server.handle("/admin/login/", handleAdminLogin)
 	}
